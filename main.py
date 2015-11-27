@@ -7,26 +7,14 @@ from leancloud import Object
 from lxml import etree
 import re
 import multiprocessing
-from multiprocessing import Pool
+from multiprocessing import Pool, Manager
 
 class ZhihuUser(Object):
-    def getName(self):
-        return self.get('name')
-    def getBio(self):
-        return self.get('bio')
-    def getIcon(self):
-        return self.get('icon')
-    def getLocacon(self):
-        return self.get('location')
-    def getBusiness(self):
-        return self.get('business')
-    def getGender(self):
-        return self.get('gender')
-    def getEducation(self):
-        return self.get('education')
-    def geticon(self):
-        return self.get('icon')
+    pass
 
+manager = Manager()
+urls = manager.list()
+poolUrls = manager.list()
 
 def save_urls_to_file():
     global urls_file, urls
@@ -49,7 +37,6 @@ def read_urls_from_file():
 
 
 def get_profile(url):
-    global urls, poolUrls
     zhihuUser = ZhihuUser()
     zhihuUser.set("url", url)
     try:
@@ -228,7 +215,7 @@ if os.path.exists(urls_file):
 #开始爬虫程序
 lock = multiprocessing.Lock()
 if beginUrl not in urls:
-    poolUrls = [beginUrl]
+    poolUrls.append(beginUrl)
     try:
         while (len(urls) < 100000) and (len(poolUrls) > 0):
             pool = Pool()
