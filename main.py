@@ -10,7 +10,6 @@ import multiprocessing
 from multiprocessing import Pool, Manager
 
 
-
 class ZhihuUser(Object):
     pass
 
@@ -37,7 +36,6 @@ def read_urls_from_file():
         urls_in_file = s.replace(" ", "").replace("\n", "").split(",")
         f.close()
         return urls_in_file
-
 
 def get_profile(url):
     zhihuUser = ZhihuUser()
